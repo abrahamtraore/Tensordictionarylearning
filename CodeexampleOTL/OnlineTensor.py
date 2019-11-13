@@ -41,7 +41,7 @@ def Proximal_operator(X,step):
     #This function computes the proximal operator of the l1 norm
     #X is of tensor type
     #Res=np.copy(X)
-    Res=np.copy(mxnet_backend.to_numpy(X))
+    Res=np.copy(tl.backend.to_numpy(X))
     Res=np.sign(Res)*np.maximum(np.abs(Res)-step,0)
     return tl.tensor(Res)
 
@@ -198,14 +198,14 @@ def Operations_listmatrices(listofmatrices,operationnature):
     if (operationnature=="Transpose"):
         for matrix in listofmatrices:
            #element=np.copy(mxnet_backend.to_numpy(matrix))
-           element=np.copy(mxnet_backend.to_numpy(matrix))
+           element=np.copy(tl.backend.to_numpy(matrix))
            Res.append(tl.tensor(element.T))#computes A.T
         return Res
     
     if(operationnature=="Transposetimes"):
        for matrix in listofmatrices:
            #element=np.copy(mxnet_backend.to_numpy(matrix))
-           element=np.copy(mxnet_backend.to_numpy(matrix))
+           element=np.copy(tl.backend.to_numpy(matrix))
            Res.append(tl.tensor(np.dot(element.T,element))) #computes A.T*A  
        return Res
    
@@ -234,9 +234,9 @@ def TestPositivity_single(X):
     #This function is used to test if the data is inherently positive for a single tensor
     #The parameter is a tensor
     #Size=np.size(np.array(mxnet_backend.to_numpy(X)))
-    Size=np.size(mxnet_backend.to_numpy(X))
+    Size=np.size(tl.backend.to_numpy(X))
     #Bool=np.sum(np.array(mxnet_backend.to_numpy(X)>=0))/Size
-    Bool=np.sum(np.array(mxnet_backend.to_numpy(X)>=0))/Size
+    Bool=np.sum(np.array(tl.backend.to_numpy(X)>=0))/Size
     if(Bool!=1):#There is at least one negative elements
       return False
     if(Bool==1):
